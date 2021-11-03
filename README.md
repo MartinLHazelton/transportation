@@ -63,7 +63,19 @@ abline(h=eg1.GSUE$u,lty=2,col=grey(0.7),lwd=2)
 legend("topright",lty=c(1,1,2,2),col=c("black",grey(0.7)),lwd=c(1,1,2,2),legend=c("TIDDS1","TIDDS2",expression(u[SUE]),expression(u[GSUE])))
 dev.off()
 
+cummean <- function(x){ cumsum(x)/seq_along(x) }
+
 pdf(file="../tex/graphics/fig1b.pdf",height=3,width=6)
+par(mar=c(4,4,0,0.5)+0.1)
+thin <- seq(1,N.days,by=50)
+plot(thin,cummean(eg1.sim.TIDDS1$x[1,1,])[thin],type="l",ylab=expression(paste("Cumulative mean flow, ",bar(x)[1]^t)),xlab="",ylim=c(16,16.5))
+lines(thin,cummean(eg1.sim.TIDDS2$x[1,1,])[thin],col=grey(0.7))
+abline(h=eg1.SUE$x,lty=2,col=1,lwd=2)
+abline(h=eg1.GSUE$x,lty=2,col=grey(0.7),lwd=2)
+legend("topright",lty=c(2,2),col=c("black",grey(0.7)),lwd=c(2,2),legend=c(expression(mu[SUE]),expression(mu[GSUE])))
+dev.off()
+
+pdf(file="../tex/graphics/fig1c.pdf",height=3,width=6)
 par(mar=c(4,4,0,0.5)+0.1)
 thin <- seq(1,N.days,by=50)
 plot(thin,eg1.sim.TIDDS1$x[1,1,thin],type="l",ylab=expression(paste("Flow, ",x[1]^t)),xlab="Time, t",ylim=c(10,23))
