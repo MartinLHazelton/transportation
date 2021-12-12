@@ -12,6 +12,7 @@ SUE(
   Beta,
   pow = 4,
   RUM = "logit",
+  x.ini = NULL,
   theta = 1,
   tol = 1e-04,
   verbose = F
@@ -31,6 +32,8 @@ SUE(
 \item{pow}{Polynomial order of cost function for each link. Defaults to 4.}
 
 \item{RUM}{Choice of random utility model. Can be "logit" (the default) or "probit".}
+
+\item{x.ini}{Initialization route flows for SUE algorithm (optional).}
 
 \item{theta}{A dispersion parameter. For the logit model, a single value specifying the logit parameter. For the probit model, a vector of standard deviations for the individual link cost errors. Defaults to 1.}
 

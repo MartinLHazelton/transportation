@@ -1,12 +1,13 @@
 #' Build a Link-path Incidence Matrix
 #'
 #' This function builds a link-path incidence matrix, in which feasible routes are determined using stochastic network loading based on user-specified link costs. The routes are based on a probit model, implemented via simulation.
-#' @param Links For a network with N nodes, Links is an NxN matrix. Links[i,j] is the link number (ID) for the node connecting node i to node j. Entries should be set to NA if there is no link between the node pair in question.
+#' @param Links For a network with N nodes, Links is an NxN matrix. The i,j entry of Links is the link number (ID) for the node connecting node i to node j. Entries should be set to NA if there is no link between the node pair in question.
 #' @param Costs A 2-column matrix, the first column of which is the link number (ID) and the second the link travel cost. Costs should be strictly positive.
 #' @param theta Standard deviation of link costs when apply probit-based stochastic network loading to identify routes. Can be vector of length equal to the number of links, or a scalar (which is then replicated if necessary). Default value is theta=0, so that only shortest paths between OD pairs are generated.
 #' @param nsim Number of simulation runs to find routes. In each run, link costs are modified by adding normal error, and the shortest paths computed with respect to these modified costs. nsim defaults to 100.
 #' @param orig Set of nodes specified as possible origins of travel. Defaults to all nodes for which there is at least one feasible route to another node.
 #' @param dest Set of nodes specified as possible destinations of travel. Defaults to all nodes that are reachable from elsewere by a feasible path.
+#' @return A list containing the link-path incidence matrix A, a vector O specifying the origin for each path, and a vector D specifying the destination for each path.
 #' @keywords link-path incidence matrix
 #' @export
 #' @examples
