@@ -9,7 +9,7 @@ DynamicLatticeBasis is most easily installed from GitHub using devtools:
 
 ```
 install.packages("devtools")
-devtools::install_github("MartinLHazelton/transportat")
+devtools::install_github("MartinLHazelton/transportation")
 ```
 
 
