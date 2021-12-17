@@ -19,6 +19,7 @@
 #' @export
 
 LogitPathProb <- function(u,ODpair,theta=1){
+	u <- u - rep(tapply(u,ODpair,min),table(ODpair))
 	p1 <- exp(-theta*u)
 	p.sums <- tapply(p1,ODpair,sum)
 	p.sums <- rep(p.sums,unname(table(ODpair)))
