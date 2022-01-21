@@ -178,5 +178,115 @@ legend("topleft",lty=1:2,legend=c("GSUE","SUE"))
 title(expression(paste("Demand multiplier ",zeta==500)))
 dev.off()
 
+# Code for supplementary simulations using grid network from Cantarella & Cadcetta, Trans Sci 29 (1995)
+
+
+A <- matrix(0, nrow=12, ncol=14)
+A[1:4,1] <- 1
+A[c(1,4,5,6),2] <- 1
+A[c(1,5,8,12),3] <- 1
+A[c(4,6,7,9),4] <- 1
+A[c(7,8,9,12),5] <- 1
+A[9:12,6] <- 1
+A[c(1,5),7] <- 1
+A[c(7,9),8] <- 1
+A[c(8,12),9] <- 1
+A[c(4,6),10] <- 1
+A[c(9,10),11] <- 1
+A[c(11,12),12] <- 1
+A[1:2,13] <- 1
+A[3:4,14] <- 1
+ODpair <- c(1,1,1,1,1,1,2,2,3,3,4,5,6,7)
+ODdemand0 <- c(6,4,4,1,1,1,1)
+ODdemand0.rep <- rep(ODdemand0,unname(table(ODpair)))
+Alpha <- c(20,12,12,30,12,12,10,10,15,15,15,15)
+Beta0 <- c(18,18,18,18,9,9,8,8,12,12,12,12)
+pow <- rep(4,12)
+
+# Plotting network
+
+nodes.x <- c(2,7,12,2,7,12)
+nodes.y <- c(7,7,7,2,2,2)
+link.node.matrix <- rbind(c(1,2),c(1,4),c(2,5),c(3,2),c(3,6),c(4,5),c(6,5))
+plotnet(nodes.x,nodes.y,link.node.matrix,ARROW.LENGTH=0.3,link.sep=0,radius=0.7,RightAbove=T)
+symbols(nodes.x[c(1,3,5)],nodes.y[c(1,3,5)],circles=rep(0.6,3),add=T,inches=FALSE,lwd=2)
+
+pdf(file="../tex/graphics/figS1.pdf",height=3.5,width=6.5)
+par(mar=c(1,1,1,1)*0.1)
+nodes.x <- c(2,7,2,12,2,12,7,12,7)
+nodes.y <- c(12,12,7,12,2,7,2,2,7)
+link.node.matrix <- rbind(c(1,2),c(2,4),c(4,6),c(6,8),c(2,9),c(9,6),c(3,9),c(9,7),c(1,3),c(3,5),c(5,7),c(7,8))
+plotnet(nodes.x,nodes.y,link.node.matrix,ARROW.LENGTH=0.3,link.sep=0,radius=0.7,RightAbove=T)
+dev.off()
+
+
+
+N.sim <- 1
+N.days <- 100000
+theta <- 0.2
+burnin <- 1000
+
+psi.grid <- seq(0.01,0.99,by=0.02)
+zeta.grid <- c(1,10,100)
+Grid.RMSE.SUE <- Grid.RMSE.GSUE <- matrix(NA,nrow=length(psi.grid),ncol=length(zeta.grid))
+Grid.GSUE.table <- Grid.SUE.table <- matrix(0,nrow=3,ncol=4)
+
+
+set.seed(2022)
+
+for (i in 1:length(zeta.grid)){
+	cat("Iteration ",i,"\n")
+	zeta <- zeta.grid[i]
+	ODdemand <- ODdemand0*zeta
+	ODdemand.rep <- rep(ODdemand,unname(table(ODpair)))
+	Beta <- Beta0*zeta
+	Grid.GSUE <- GSUE(ODdemand,ODpair,A=A,Alpha=Alpha,Beta=Beta,pow=pow,theta=theta,verbose=F)
+	Grid.SUE <- SUE(ODdemand,ODpair,A=A,Alpha=Alpha,Beta=Beta,pow=pow,theta=theta,verbose=F)
+	Grid.GSUE.table[i,] <- Grid.GSUE$x/zeta
+ 	Grid.SUE.table[i,] <- Grid.SUE$x/zeta
+	for (j in 1:length(psi.grid)){
+		psi <- psi.grid[j]
+		Grid.DDS <- rDDSProcess(ODdemand,ODpair,A,N.days=N.days,N.sim=N.sim,x.start=NA,Alpha=Alpha,Beta=Beta,pow=pow,RUM="logit",theta=theta,psi=psi,process="Standard",variable.demand=F)
+		Grid.mean <- rowMeans(Grid.DDS$x[1,,-(1:burnin)])	
+		Grid.RMSE.SUE[j,i] <- sqrt(mean((Grid.SUE$x-Grid.mean)^2/ODdemand.rep^2))
+		Grid.RMSE.GSUE[j,i] <- sqrt(mean((Grid.GSUE$x-Grid.mean)^2/ODdemand.rep^2))
+	}
+}
+
+Grid.GSUE.table 
+Grid.SUE.table
+
+plot(psi.grid,Grid.RMSE.GSUE[,1],type="l",xlab=expression(psi),ylab="RMSE",lty=1,ylim=c(0,0.06))
+lines(psi.grid,Grid.RMSE.SUE[,1],type="l",lty=2)
+lines(psi.grid,Grid.RMSE.GSUE[,2],type="l",col=2)
+lines(psi.grid,Grid.RMSE.SUE[,2],type="l",col=2,lty=2)
+lines(psi.grid,Grid.RMSE.GSUE[,3],type="l",col=3)
+lines(psi.grid,Grid.RMSE.SUE[,3],type="l",col=3,lty=2)
+
+pdf(file="../tex/graphics/figS2a.pdf",height=5,width=5)
+par(mar=c(4,4,4,0.1))
+plot(psi.grid,Grid.RMSE.GSUE[,1],type="l",xlab=expression(paste("Recency parameter ",psi)),ylab="RMSE",lty=1,ylim=c(0,0.1))
+lines(psi.grid,Grid.RMSE.SUE[,1],type="l",lty=2)
+legend("topright",lty=1:2,legend=c("GSUE","SUE"))
+title(expression(paste("Demand multiplier ",zeta==5)))
+dev.off()
+
+pdf(file="../tex/graphics/figS2b.pdf",height=5,width=5)
+par(mar=c(4,4,4,0.1))
+plot(psi.grid,Grid.RMSE.GSUE[,2],type="l",xlab=expression(paste("Recency parameter ",psi)),ylab="RMSE",lty=1,ylim=c(0,0.1))
+lines(psi.grid,Grid.RMSE.SUE[,2],type="l",lty=2)
+legend("topright",lty=1:2,legend=c("GSUE","SUE"))
+title(expression(paste("Demand multiplier ",zeta==50)))
+dev.off()
+
+pdf(file="../tex/graphics/figS2c.pdf",height=5,width=5)
+par(mar=c(4,4,4,0.1))
+plot(psi.grid,Grid.RMSE.GSUE[,3],type="l",xlab=expression(paste("Recency parameter ",psi)),ylab="RMSE",lty=1,ylim=c(0,0.1))
+lines(psi.grid,Grid.RMSE.SUE[,3],type="l",lty=2)
+legend("topright",lty=1:2,legend=c("GSUE","SUE"))
+title(expression(paste("Demand multiplier ",zeta==500)))
+dev.off()
+
+
 ```
 
