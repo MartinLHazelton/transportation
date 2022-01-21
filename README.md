@@ -211,7 +211,7 @@ link.node.matrix <- rbind(c(1,2),c(1,4),c(2,5),c(3,2),c(3,6),c(4,5),c(6,5))
 plotnet(nodes.x,nodes.y,link.node.matrix,ARROW.LENGTH=0.3,link.sep=0,radius=0.7,RightAbove=T)
 symbols(nodes.x[c(1,3,5)],nodes.y[c(1,3,5)],circles=rep(0.6,3),add=T,inches=FALSE,lwd=2)
 
-pdf(file="../tex/graphics/figS1.pdf",height=3.5,width=6.5)
+pdf(file="../tex/graphics/figS1.pdf",height=6,width=6)
 par(mar=c(1,1,1,1)*0.1)
 nodes.x <- c(2,7,2,12,2,12,7,12,7)
 nodes.y <- c(12,12,7,12,2,7,2,2,7)
