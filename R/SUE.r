@@ -10,7 +10,7 @@
 #' @param RUM Choice of random utility model. Can be "logit" (the default) or "probit".
 #' @param x.ini Initialization route flows for SUE algorithm (optional). 
 #' @param theta A dispersion parameter. For the logit model, a single value specifying the logit parameter. For the probit model, a vector of standard deviations for the individual link cost errors. Defaults to 1.
-#' @param d Tuning parameter; d=0 corresponds to the basic method of successive averages. Defaults to 1.
+#' @param tune.d Tuning parameter; tune.d=0 corresponds to the basic method of successive averages. Defaults to 1.
 #' @param tol Tolerance for convergence assessment (measured as route mean squared difference between current flow vector and the search direction). Defaults of 1e-4.
 #' @param verbose Should progress of algorithm be printed out? Defaults to FALSE.
 #' @return Output is a list of SUE route flows x and corresponding path costs u.
@@ -26,7 +26,7 @@
 #' SUE(ODdemand,ODpair,A=A,Alpha=Alpha,Beta=Beta,pow=pow,theta=theta,verbose=F)
 #' @export
 
-SUE <- function(ODdemand,ODpair,A,Alpha,Beta,pow=4,RUM="logit",x.ini = NULL,theta=1,tol=1e-4,verbose=F){
+SUE <- function(ODdemand,ODpair,A,Alpha,Beta,pow=4,RUM="logit",x.ini = NULL,theta=1,tune.d=1,tol=1e-4,verbose=F){
     if (any(ODdemand <= 0)) {
         stop("All OD demands must be strictly positive")
     }

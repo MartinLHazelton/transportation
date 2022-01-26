@@ -14,6 +14,7 @@ SUE(
   RUM = "logit",
   x.ini = NULL,
   theta = 1,
+  tune.d = 1,
   tol = 1e-04,
   verbose = F
 )
@@ -37,11 +38,11 @@ SUE(
 
 \item{theta}{A dispersion parameter. For the logit model, a single value specifying the logit parameter. For the probit model, a vector of standard deviations for the individual link cost errors. Defaults to 1.}
 
+\item{tune.d}{Tuning parameter; tune.d=0 corresponds to the basic method of successive averages. Defaults to 1.}
+
 \item{tol}{Tolerance for convergence assessment (measured as route mean squared difference between current flow vector and the search direction). Defaults of 1e-4.}
 
 \item{verbose}{Should progress of algorithm be printed out? Defaults to FALSE.}
-
-\item{d}{Tuning parameter; d=0 corresponds to the basic method of successive averages. Defaults to 1.}
 }
 \value{
 Output is a list of SUE route flows x and corresponding path costs u.
