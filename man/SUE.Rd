@@ -40,12 +40,14 @@ SUE(
 \item{tol}{Tolerance for convergence assessment (measured as route mean squared difference between current flow vector and the search direction). Defaults of 1e-4.}
 
 \item{verbose}{Should progress of algorithm be printed out? Defaults to FALSE.}
+
+\item{d}{Tuning parameter; d=0 corresponds to the basic method of successive averages. Defaults to 1.}
 }
 \value{
 Output is a list of SUE route flows x and corresponding path costs u.
 }
 \description{
-This function calculates stochastic user equilibrium (SUE) using the method of successive averages. Output is a list of SUE route flows x and corresponding path costs u.
+This function calculates stochastic user equilibrium (SUE) using the method of successive weighted averages. Output is a list of SUE route flows x and corresponding path costs u.
 }
 \examples{
 A <- matrix(c(0,1,0,0,1,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,1),ncol=4,byrow=T) 
