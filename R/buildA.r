@@ -7,6 +7,7 @@
 #' @param nsim Number of simulation runs to find routes. In each run, link costs are modified by adding normal error, and the shortest paths computed with respect to these modified costs. nsim defaults to 100.
 #' @param orig Set of nodes specified as possible origins of travel. Defaults to all nodes for which there is at least one feasible route to another node.
 #' @param dest Set of nodes specified as possible destinations of travel. Defaults to all nodes that are reachable from elsewere by a feasible path.
+#' @loops Include paths with loops? Defaults to FALSE.
 #' @return A list containing the link-path incidence matrix A, a vector O specifying the origin for each path, and a vector D specifying the destination for each path.
 #' @keywords link-path incidence matrix
 #' @export
@@ -30,7 +31,7 @@
 #' buildA(Links,Costs)
 #' buildA(links,Costs,theta=0.4,orig=c(1,2),dest=c(3,4))
 
-buildA <- function(Links,Costs,theta=0,nsim=100,orig=NA,dest=NA){
+buildA <- function(Links,Costs,theta=0,nsim=100,orig=NA,dest=NA,loops=F){
 	require(e1071)
 	r <- nrow(Links)
 	n <- nrow(Costs)
@@ -54,11 +55,13 @@ buildA <- function(Links,Costs,theta=0,nsim=100,orig=NA,dest=NA){
 						a <- rep(0,n)
 						for (j in 1:(length(p)-1) ){
 							link <- Links[p[j],p[j+1]]
-							a[link] <- 1
+							a[link] <- a[link]+1
 						}		
-						A <- cbind(A,a)
-						O <- c(O,o)
-						D <- c(D,d)
+						if ((!loops & (max(a) < 1.5)) | loops){
+							A <- cbind(A,a)
+							O <- c(O,o)
+							D <- c(D,d)
+						}
 					}	
 				}
 			}

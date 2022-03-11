@@ -4,7 +4,7 @@
 \alias{buildA}
 \title{Build a Link-path Incidence Matrix}
 \usage{
-buildA(Links, Costs, theta = 0, nsim = 100, orig = NA, dest = NA)
+buildA(Links, Costs, theta = 0, nsim = 100, orig = NA, dest = NA, loops = F)
 }
 \arguments{
 \item{Links}{For a network with N nodes, Links is an NxN matrix. The i,j entry of Links is the link number (ID) for the node connecting node i to node j. Entries should be set to NA if there is no link between the node pair in question.}
