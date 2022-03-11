@@ -5,7 +5,7 @@ An R package for statistical modelling and inference in transportation research.
 
 ## Install
 
-#transportation# is most easily installed from GitHub using devtools:
+The package transportation is most easily installed from GitHub using devtools:
 
 ```
 install.packages("devtools")
