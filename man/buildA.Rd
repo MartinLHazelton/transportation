@@ -18,6 +18,8 @@ buildA(Links, Costs, theta = 0, nsim = 100, orig = NA, dest = NA, loops = F)
 \item{orig}{Set of nodes specified as possible origins of travel. Defaults to all nodes for which there is at least one feasible route to another node.}
 
 \item{dest}{Set of nodes specified as possible destinations of travel. Defaults to all nodes that are reachable from elsewere by a feasible path.}
+
+\item{loops}{Include paths with loops? Defaults to FALSE.}
 }
 \value{
 A list containing the link-path incidence matrix A, a vector O specifying the origin for each path, and a vector D specifying the destination for each path.
