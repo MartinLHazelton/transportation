@@ -18,6 +18,7 @@ plotnet(
   LINK.LABEL = TRUE,
   RightAbove = F,
   link.lty = 1,
+  link.col = 1,
   node.lwd = 2
 )
 }
@@ -47,6 +48,8 @@ plotnet(
 \item{RightAbove}{Further control for link label positions. Defaults to FALSE, which means that labels appear to left looking in direction of arrows. If TRUE, labels appear to the left/above links.}
 
 \item{link.lty}{Line type for links: single value, or vector (lty per link). Defaults to 1.}
+
+\item{link.col}{Line type for links: single value, or vector (lty per link). Defaults to 1 (black).}
 
 \item{node.lwd}{Line width for nodes: single value, or vector (lty per nodes). Defaults to 2.}
 }
