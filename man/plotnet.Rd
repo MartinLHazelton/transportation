@@ -16,7 +16,9 @@ plotnet(
   ARR.TYPE = "triangle",
   node.label = TRUE,
   LINK.LABEL = TRUE,
-  RightAbove = F
+  RightAbove = F,
+  link.lty = 1,
+  node.lwd = 2
 )
 }
 \arguments{
@@ -43,6 +45,10 @@ plotnet(
 \item{LINK.LABEL}{Label links? Defaults to TRUE.}
 
 \item{RightAbove}{Further control for link label positions. Defaults to FALSE, which means that labels appear to left looking in direction of arrows. If TRUE, labels appear to the left/above links.}
+
+\item{link.lty}{Line type for links: single value, or vector (lty per link). Defaults to 1.}
+
+\item{node.lwd}{Line width for nodes: single value, or vector (lty per nodes). Defaults to 2.}
 }
 \value{
 Produces a plot of the network
