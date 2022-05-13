@@ -32,6 +32,7 @@ plotnet <- function(nodes.x,nodes.y,link.node.matrix,radius=1/2,link.sep=1/12,li
   if (length(link.sep) < n.links) link.sep <- rep(link.sep,length=n.links)
   if (length(link.lty) < n.links) link.lty <- rep(link.lty,length=n.links)
   if (length(link.col) < n.links) link.col <- rep(link.col,length=n.links)
+  if (length(node.lwd) < n.nodes) node.lwd <- rep(node.lwd,length=n.nodes)
   plot(0,0,xlim=c(min(nodes.x)-radius,max(nodes.x)+radius),ylim=c(min(nodes.y)-radius,max(nodes.y)+radius),type="n",axes=F,xlab="",ylab="")
   for (i in 1:n.nodes){
 	symbols(nodes.x[i],nodes.y[i],circles=radius,add=T,inches=FALSE,lwd=node.lwd[i]) 
