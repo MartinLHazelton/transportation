@@ -17,7 +17,7 @@ devtools::install_github("MartinLHazelton/transportation")
 
 The code below implements the simulation results in 
 
-Hazelton, M.L., (2021). The dynamics of Stochastic User Equilibrium, submitted for publication.
+Hazelton, M.L., (2022). The emergence of Stochastic User Equilibria in day-to-day traffic models, Transportation Research Part B, in press. https://doi.org/10.1016/j.trb.2022.02.010.
 
 ```
 devtools::install_github("MartinLHazelton/transportation")
