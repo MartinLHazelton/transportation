@@ -45,7 +45,7 @@ SUE(
 \item{verbose}{Should progress of algorithm be printed out? Defaults to FALSE.}
 }
 \value{
-Output is a list of SUE route flows x and corresponding path costs u.
+Output is a list of SUE route flows x, corresponding path costs u, and corresponding link cost k.
 }
 \description{
 This function calculates stochastic user equilibrium (SUE) using the method of successive weighted averages. Output is a list of SUE route flows x and corresponding path costs u.
