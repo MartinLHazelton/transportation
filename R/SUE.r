@@ -13,7 +13,7 @@
 #' @param tune.d Tuning parameter; tune.d=0 corresponds to the basic method of successive averages. Defaults to 1.
 #' @param tol Tolerance for convergence assessment (measured as route mean squared difference between current flow vector and the search direction). Defaults of 1e-4.
 #' @param verbose Should progress of algorithm be printed out? Defaults to FALSE.
-#' @return Output is a list of SUE route flows x and corresponding path costs u.
+#' @return Output is a list of SUE route flows x, corresponding path costs u, and corresponding link cost k.
 #' @keywords SUE
 #' @examples
 #' A <- matrix(c(0,1,0,0,1,0,0,0,0,1,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,1),ncol=4,byrow=T) 
@@ -38,8 +38,9 @@ SUE <- function(ODdemand,ODpair,A,Alpha,Beta,pow=4,RUM="logit",x.ini = NULL,thet
     iter <- 1
     Gam <- 0
     while (gap > tol) {
-        u <- PathCost(x = x, A = A, Alpha = Alpha, Beta = Beta, 
-            pow = pow)
+        k <- c(LinkCost(x = A%*%x, Alpha = Alpha, Beta = Beta, 
+            pow = pow))
+	u <- c(t(A)%*%k)
         y <- PathProb(u = u, ODpair = ODpair, A = A, RUM = RUM, 
             theta = theta) * ODdemand.rep
         gap <- sqrt(mean(((x - y)/ODdemand.rep)^2))
@@ -52,5 +53,5 @@ SUE <- function(ODdemand,ODpair,A,Alpha,Beta,pow=4,RUM="logit",x.ini = NULL,thet
             iter <- iter + 1
         }
     }
-    list(x = unname(x), u = u)
+    list(x = unname(x), u = u, k=k)
 }
